@@ -1,6 +1,5 @@
 #include "includes.h"
 
-
 //global variable defination
 EEPROM_DAT eepromDat @0x0F00;
 volatile STATUSSTR CurStatus; //Current status
@@ -82,7 +81,7 @@ TOOLMONITOR_ ToolMonitor;
 //  const char FW_Version[]="DSM1.18.85";      //修改了内部串行总线的处理，2018.8.14
 //const char FW_Version[]="DSM1.18.86";      //修改了测试中发现的探管进入测斜模式后的假死问题，2018.8.15
 // const char FW_Version[]="DSM1.18.87";       //限流提高到1.6A
-  const char FW_Version[]="DSM1.18.88";       //优化开关总线时的内存存储
+  const char FW_Version[]="DSM1.18.88";       //优化开关总线时的内存存储,2018.11.08
   
 //end global variable defination
 //function declaration
@@ -357,14 +356,14 @@ void main(void)
                     //UDT 广播时间
                     SCI_ClearBuf();
                     InitQueueByte(&LbusQueue);                    
-    				timeBroBuf[0] = SDI_SYNCTIME_WRITE_BRO;
-    				timeBroBuf[1] = 3;  //length
-    				for(i=0;i<2;i++)
-    				{                   				    
-    				    timeBroBuf[i+2] = tempWordBuf[i+1];
-    				}
-    				timeBroBuf[4] = CalcuCHKS(timeBroBuf+1,3);
-    				SCI_Send(timeBroBuf,10);                      
+            				timeBroBuf[0] = SDI_SYNCTIME_WRITE_BRO;
+            				timeBroBuf[1] = 3;  //length
+            				for(i=0;i<2;i++)
+            				{                   				    
+            				    timeBroBuf[i+2] = tempWordBuf[i+1];
+            				}
+            				timeBroBuf[4] = CalcuCHKS(timeBroBuf+1,3);
+            				SCI_Send(timeBroBuf,10);                      
     				
                     BroCount++;
                     if(BroCount >= 3)
